@@ -1,0 +1,224 @@
+watch_stylesheet: true
+watch_config: true
+debug: false
+
+# This komorebi setting will be used for tray context menu.
+# If you don't use komorebi, you can remove this section.
+komorebi:
+  start_command: "komorebic start --whkd"
+  stop_command: "komorebic stop --whkd"
+  reload_command: "komorebic reload-configuration"
+
+bars:
+  primary-bar:
+    enabled: true
+    screens: ['*'] 
+    class_name: "yasb-bar"
+    alignment:
+      position: "top"
+      center: false
+    blur_effect:
+      enabled: false
+      acrylic: false
+      dark_mode: false
+      round_corners: false
+      border_color: None
+    window_flags:
+      always_on_top: false
+      windows_app_bar: true
+    dimensions:
+      width: "100%"
+      height: 28
+    padding:
+      top: 4
+      left: 4
+      bottom: 0
+      right: 4
+    widgets:
+      left:
+        [
+          "win_button",
+          "komorebi_control",
+          "komorebi_workspaces",
+        ]
+      center: [
+         "komorebi_active_layout",
+         "cava",
+        ]
+      right:
+        [
+          "taskbar",
+          "volume",
+          "clock",
+          "power_menu",
+        ]
+widgets:
+ 
+  clock:
+    type: "yasb.clock.ClockWidget"
+    options:
+      label: "<span>\udb83\ude17</span>{%a %b %d %H:%M}"
+      label_alt: "<span>\udb83\ude17</span>{%A, %d %B %Y %H:%M}"
+      timezones: []
+
+
+  komorebi_workspaces:
+    type: "komorebi.workspaces.WorkspaceWidget"
+    options:
+        label_offline: "\u26a1 Offline"
+        label_workspace_btn: ""
+        label_workspace_active_btn: ""
+        label_workspace_populated_btn: ""
+        label_default_name: "{index}"
+        label_zero_index: false
+        hide_empty_workspaces: false
+        hide_if_offline: false
+        animation: true
+
+  volume:
+    type: "yasb.volume.VolumeWidget"
+    options:
+      label: "<span>{icon}</span> {level}"
+      label_alt: "{volume}"
+      volume_icons:
+        - "\ueee8"  # Icon for muted
+        - "\uf026"  # Icon for 0-10% volume
+        - "\uf027"  # Icon for 11-30% volume
+        - "\uf027"  # Icon for 31-60% volume
+        - "\uf028"  # Icon for 61-100% volume
+      callbacks:
+        on_right: "exec cmd.exe /c start ms-settings:sound"
+        
+  power_menu:
+    type: "yasb.power_menu.PowerMenuWidget"
+    options:
+      label: "<span>\uf011</span>"
+      uptime: True
+      blur: False
+      blur_background: True
+      animation_duration: 200 # Milisecond 
+      button_row: 5 # Number of buttons in row, min 1 max 5
+      buttons:
+        shutdown: ["\uf011","Apagar"]
+        restart: ["\uead2","Reiniciar"]
+        signout: ["\udb80\udf43","Cerrar Sesion"]
+        hibernate: ["\uf28e","Hibernar"]
+        sleep: ["\u23fe","Suspender"]
+        cancel: ["","Cancelar"]
+  taskbar:
+    type: "yasb.taskbar.TaskbarWidget"
+    options:
+      animation:
+        enabled: true
+      icon_size: 14
+      ignore_apps:
+        processes: []
+        titles: []
+        classes: []
+      container_padding:
+        top: 0
+        left: 0
+        bottom: 0
+        right: 0
+  win_button:
+    type: "yasb.custom.CustomWidget"
+    options:
+      label: "<span>\udb80\udf5c</span>"
+      label_alt: "<span>\udb80\udf5c</span>"
+      class_name: "win-btn"
+      callbacks:
+        on_left: "exec start_menu"
+
+  komorebi_active_layout:
+    type: "komorebi.active_layout.ActiveLayoutWidget"
+    options:
+      hide_if_offline: true
+      label: "{icon}"
+      layouts:
+        - "bsp"
+        - "columns"
+        - "rows"
+        - "grid"
+        - "scrolling"
+        - "vertical_stack"
+        - "horizontal_stack"
+        - "ultrawide_vertical_stack"
+        - "right_main_vertical_stack"
+      layout_icons:
+        bsp: "\uebeb"
+        columns: "\uebf7"
+        rows: "\uec01"
+        grid: "\udb81\udf58"
+        scrolling: "\uebf7"
+        vertical_stack: "\uebee"
+        horizontal_stack: "\uebf0"
+        ultrawide_vertical_stack: "\uebee"
+        right_main_vertical_stack: "\uebf1"
+        monocle: "\uf06f"
+        maximized: "\uf06f"
+        floating: "\uf2d2"
+        paused: "\udb83\udf89"
+        tiling: "\udb81\ude40"
+      callbacks:
+        on_left: "toggle_layout_menu"
+        on_middle: "toggle_tiling"
+        on_right: "next_layout"
+      layout_menu:
+        blur: true
+        round_corners: false
+        alignment: "left"
+        direction: "down"
+        offset_top: true
+        show_layout_icons: true
+      container_padding:
+        top: 0
+        left: 0
+        bottom: 0
+        right: 0
+      label_shadow:
+        enabled: false
+        color: "black"
+        radius: 5
+        offset: [0, 0]
+  komorebi_control:
+      type: "komorebi.control.KomorebiControlWidget"
+      options:
+        label: "<span>\udb80\uddd9</span>"
+        icons:
+          start: "\uead3"
+          stop: "\uead7"
+          reload: "\uead2"
+        run_ahk: false
+        run_whkd: true
+        show_version: true
+        komorebi_menu:
+          blur: False
+          round_corners: True
+          round_corners_type: 'normal'
+          border_color: 'white'
+          alignment: 'center'
+          direction: 'down'
+          offset_top: 6
+          offset_left: 0
+
+  cava:
+    type: "yasb.cava.CavaWidget"
+    options:
+      bar_height: 12
+      min_bar_height: 0
+      gradient: 1
+      reverse: 0
+      foreground: "#89b4fa"
+      gradient_color_1: "#88c0d0"
+      gradient_color_2: "#88c0d0"
+      gradient_color_3: "#88c0d0"
+      bars_number: 8
+      bar_spacing: 2
+      bar_width: 4
+      sleep_timer: 2
+      hide_empty: false
+      container_padding:
+        top: 2
+        left: 8
+        bottom: 0
+        right: 8
